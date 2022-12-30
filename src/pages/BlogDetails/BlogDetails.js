@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import CommentsDisplay from "./CommentsDisplay/CommentsDisplay";
 import { useQuery } from "@tanstack/react-query";
 import parcer from "html-react-parser";
+import ButtonSpinner from "../../components/ButtonSpinner/ButtonSpinner";
+import { useEffect } from "react";
 
 const BlogDetails = () => {
   const {
@@ -21,12 +23,36 @@ const BlogDetails = () => {
     detailsDescription,
     authorName,
   } = useLoaderData();
+
   const parcerDescription = parcer(detailsDescription);
 
   const { user } = useContext(AuthContext);
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  // const [blog, setBlog] = useState({});
 
-  const handelComment = () => {
+  // Comment Get
+  const { data: comments = [], refetch } = useQuery({
+    queryKey: [],
+    queryFn: () =>
+      fetch(
+        `https://code-gallery-server-nasim0994.vercel.app/comments/${_id}`
+      ).then((res) => res.json()),
+  });
+
+  // Blog Get
+  const { data: blog = {} } = useQuery({
+    queryKey: [_id],
+    queryFn: () =>
+      fetch(
+        `https://code-gallery-server-nasim0994.vercel.app/blogs/${_id}`
+      ).then((res) => res.json()),
+  });
+
+  // Comment post
+  const handelComment = (_id) => {
+    setLoading(true);
+
     const commentInfo = {
       blogId: _id,
       comment: comment,
@@ -46,31 +72,27 @@ const BlogDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
-          toast.success("Comment Success");
-          setComment("");
-          refetch();
+          fetch(
+            `https://code-gallery-server-nasim0994.vercel.app/blogs/${_id}`,
+            {
+              method: "PUT",
+            }
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              toast.success("Comment Success");
+              setComment("");
+              setLoading(false);
+              refetch();
+            });
         }
       });
   };
 
-  // Comment Get
-  const { data: comments = [], refetch } = useQuery({
-    queryKey: [],
-    queryFn: () =>
-      fetch(
-        `https://code-gallery-server-nasim0994.vercel.app/comments/${_id}`,
-        {
-          headers: {
-            authorization: `bearer ${localStorage.getItem("Code-Gallery-jwt")}`,
-          },
-        }
-      ).then((res) => res.json()),
-  });
-
   return (
     <div className="w-[95%] lg:w-[80%] mx-auto py-4">
-      <div className="lg:flex gap-4">
-        <div className="lg:w-3/4">
+      <div>
+        <div>
           {/* Blog Details */}
           <div className="bg-white pb-6">
             {/* Image */}
@@ -90,7 +112,8 @@ const BlogDetails = () => {
                 {authorName}
               </p>
               <p className="flex items-center gap-1">
-                <FaRegComment className="text-red-600" />0
+                <FaRegComment className="text-red-600" />
+                {blog.comment}
               </p>
             </div>
             {/* Blog Info */}
@@ -129,14 +152,11 @@ const BlogDetails = () => {
 
                     {comment.length > 0 && (
                       <div className="flex gap-2 items-center justify-end mt-3">
-                        <button className="hover:bg-gray-200 px-3 py-1 rounded-2xl font-medium">
-                          Cancel
-                        </button>
                         <button
-                          onClick={handelComment}
-                          className="bg-teal-700 hover:bg-teal-600 text-white px-3 py-1 rounded-2xl font-medium"
+                          onClick={() => handelComment(_id)}
+                          className=" bg-violet-600 hover:bg-violet-700 text-white px-3 py-1 rounded-2xl font-medium"
                         >
-                          Comment
+                          {loading ? <ButtonSpinner /> : "Comment"}
                         </button>
                       </div>
                     )}
@@ -163,7 +183,6 @@ const BlogDetails = () => {
             )}
           </div>
         </div>
-        <div className="lg:w-1/4 border bg-white hidden lg:block"></div>
       </div>
     </div>
   );

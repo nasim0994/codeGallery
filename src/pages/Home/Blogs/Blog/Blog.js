@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { HiOutlinePencilAlt } from "react-icons/hi";
-import { FaRegComment } from "react-icons/fa";
+// import { FaRegComment } from "react-icons/fa";
 import { FcCalendar } from "react-icons/fc";
+import { AiFillFolderOpen } from "react-icons/ai";
 
 const Blog = ({ blog }) => {
-  const { _id, title, description, picture, authorName, date } = blog;
+  const { _id, title, description, picture, authorName, date, category } = blog;
 
   return (
     <div className="lg:flex gap-2 border-b py-6">
@@ -23,12 +24,17 @@ const Blog = ({ blog }) => {
             <HiOutlinePencilAlt />
             {authorName}
           </p>
-          <p className="flex items-center gap-1">
-            <FaRegComment />0
-          </p>
+          {/* <p className="flex items-center gap-1">
+            <FaRegComment />
+            {comments.length}
+          </p> */}
           <p className="flex items-center gap-1">
             <FcCalendar />
             {date}
+          </p>
+          <p className="flex items-center gap-1">
+            <AiFillFolderOpen />
+            {category}
           </p>
         </div>
         <p className="text-[#504d4d] text-[16px]">

@@ -24,6 +24,8 @@ const Blogs = ({ blogs }) => {
           ? blogs.map((blog) => <Blog key={blog._id} blog={blog} />)
           : "No Blog"}
       </div>
+
+      {/* Right Side */}
       <div className="w-[25%] bg-white p-6 hidden lg:block">
         <h2 className="text-2xl font-medium">Recent Blog</h2>
         <ul className="mt-2">
