@@ -1,10 +1,9 @@
 import React from "react";
 
 const CommentsDisplay = ({ comment }) => {
-
   return (
     <div className="mt-6 px-4">
-      <div className="flex gap-2">
+      <div data-aos="zoom-in" className="flex gap-2">
         <img
           src={comment.userPhoto}
           alt="userPhoto"

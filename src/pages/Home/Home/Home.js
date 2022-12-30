@@ -42,10 +42,10 @@ const Home = () => {
     <div className="py-3 w-[95%] lg:w-[80%] mx-auto">
       {/* Banner */}
       <section className="flex gap-4">
-        <div className="lg:w-[75%]">
+        <div data-aos="fade-right" className="lg:w-[75%]">
           <Carousel></Carousel>
         </div>
-        <div className="lg:w-[25%] hidden lg:block">
+        <div data-aos="fade-left" className="lg:w-[25%] hidden lg:block">
           <Categorys handelCategoryBlog={handelCategoryBlog} />
         </div>
       </section>
