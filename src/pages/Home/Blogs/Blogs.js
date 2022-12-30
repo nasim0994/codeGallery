@@ -19,21 +19,21 @@ const Blogs = ({ blogs }) => {
 
   return (
     <div className="lg:flex gap-4">
-      <div data-aos="fade-right" className="lg:w-[75%] bg-white p-5 pt-0">
+      <div className="lg:w-[75%] bg-white p-5 pt-0">
         {blogs.length
           ? blogs.map((blog) => <Blog key={blog._id} blog={blog} />)
           : "No Blog"}
       </div>
 
       {/* Right Side */}
-      <div
-        data-aos="fade-left"
-        className="w-[25%] bg-white p-6 hidden lg:block"
-      >
+      <div className="w-[25%] bg-white p-6 hidden lg:block">
         <h2 className="text-2xl font-medium">Recent Blog</h2>
-        <ul className="mt-2">
-          {recentBlogs?.map((blog) => (
-            <li className="border-b pb-1 mb-2 font-medium text-lg hover:underline text-gray-600">
+        <ul data-aos="fade-left" className="mt-2">
+          {recentBlogs?.map((blog, i) => (
+            <li
+              key={i}
+              className="border-b pb-1 mb-2 font-medium text-lg hover:underline text-gray-600"
+            >
               <Link to={`blog/${blog._id}`}>{blog.title}</Link>
             </li>
           ))}

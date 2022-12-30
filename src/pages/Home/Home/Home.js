@@ -5,10 +5,14 @@ import Carousel from "../../../components/Carousel/Carousel";
 import Categorys from "../../../components/Categorys/Categorys";
 import Blogs from "../Blogs/Blogs";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../ContextApi/UserContext";
+import { useContext } from "react";
 
 const Home = () => {
   const [categoryText, setCategoryText] = useState("");
   const [blogs, setBlogs] = useState([]);
+  const { search } = useContext(AuthContext);
+  const searchLowerText = search.toLowerCase();
 
   useEffect(() => {
     fetch(`https://code-gallery-server-nasim0994.vercel.app/blogs`)
@@ -37,6 +41,20 @@ const Home = () => {
         setBlogs(data);
       });
   };
+
+  // Search By Blogs
+  useEffect(() => {
+    fetch("https://code-gallery-server-nasim0994.vercel.app/blogs")
+      .then((res) => res.json())
+      .then((data) => {
+        const filterData = data.filter((blog) => {
+          const blogTitle = blog.title.toLowerCase();
+          return blogTitle.includes(searchLowerText);
+        });
+        setBlogs(filterData);
+        // setLoading(false);
+      });
+  }, [searchLowerText]);
 
   return (
     <div className="py-3 w-[95%] lg:w-[80%] mx-auto">

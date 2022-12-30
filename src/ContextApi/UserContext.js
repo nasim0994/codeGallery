@@ -17,6 +17,8 @@ const UserContext = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [search, setSearch] = useState("");
+
   //Create New User with Email&password
   const signup = (email, password) => {
     setLoading(true);
@@ -65,6 +67,8 @@ const UserContext = ({ children }) => {
     user,
     loading,
     setLoading,
+    setSearch,
+    search,
   };
 
   return (

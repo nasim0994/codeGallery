@@ -9,7 +9,7 @@ const Blog = ({ blog }) => {
   const { _id, title, description, picture, authorName, date, category } = blog;
 
   return (
-    <div className="lg:flex gap-2 border-b py-6">
+    <div data-aos="fade-right" className="lg:flex gap-2 border-b py-6">
       <div className="lg:w-[40%]">
         <Link to={`blog/${_id}`}>
           <img src={picture} alt="" className="h-full" />

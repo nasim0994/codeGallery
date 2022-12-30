@@ -8,6 +8,7 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const [dropdown, setDropdown] = useState(true);
   const [isAdmin] = useAdmin(user?.email);
+  const { setSearch } = useContext(AuthContext);
 
   return (
     <header className="bg-white sticky z-20 top-0">
@@ -51,6 +52,7 @@ const Header = () => {
                 </svg>
               </div>
               <input
+                onChange={(e) => setSearch(e.target.value)}
                 type="search"
                 id="default-search"
                 className="block w-full p-4 py-[10px] pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
